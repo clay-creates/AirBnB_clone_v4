@@ -95,17 +95,17 @@ class TestFileStorage(unittest.TestCase):
             self.storage.new(self.user1)
             self.storage.new(self.user2)
 
-        def test_get(self):
-            """ Test get returning correct object """
-            result = self.storage.get(User, '123')
-            self.assertIsNotNone(result)
-            self.assertEqual(result.id, '123')
-            self.assertEqual(result.name, 'John Doe')
-            self.assertEqual(result.email, 'john.doe@test.com')
+    def test_get(self):
+        """ Test get returning correct object """
+        result = self.storage.get(User, '123')
+        self.assertIsNotNone(result)
+        self.assertEqual(result.id, '123')
+        self.assertEqual(result.name, 'John Doe')
+        self.assertEqual(result.email, 'john.doe@test.com')
 
-        def test_count(self):
-            """ Test count returns correct num of objects """
-            count = self.storage.count(User)
-            self.assertEqual(count, 2)
-            count = self.storage.count()
-            self.assertEqual(count, 2)
+    def test_count(self):
+        """ Test count returns correct num of objects """
+        count = self.storage.count(User)
+        self.assertEqual(count, 2)
+        count = self.storage.count()
+        self.assertEqual(count, 2)
