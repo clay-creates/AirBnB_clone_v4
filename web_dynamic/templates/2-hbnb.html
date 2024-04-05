@@ -16,7 +16,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Javascript import -->
-    <script src="{{ url_for('static', filename='scripts/1-hbnb.js') }}?cache_id={{ cache_id }}"></script>
+    <script src="{{ url_for('static', filename='scripts/2-hbnb.js') }}?cache_id={{ cache_id }}"></script>
 
     <!-- **********************
 	 CSS styles
@@ -41,6 +41,7 @@
 	 ********************** -->
 
     <header>
+		<div id="api_status" style="position:absolute; right: 30px; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background-color: #cccccc;"></div>
     </header>
     <main>
       <div class="container">
