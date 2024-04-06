@@ -26,13 +26,14 @@ $(function () {
   });
 });
   
-$(document).ready(function () {
+$('#searchBtn').click(function () {
   $.ajax({
     url: "https://0.0.0.0:5001/api/v1/places_search/",
     type: "POST",
     contentType: "application/json",
-    data: JSON.stringify({}),
+    data: JSON.stringify({amenities: ameniID}),
     success: function (response) {
+      $('.places').empty();
       response.forEach(function (place) {
         var article = $('<article>').append(
           $('<div>').addClass('title').append(
