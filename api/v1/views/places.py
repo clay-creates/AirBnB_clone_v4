@@ -117,3 +117,4 @@ def places_search():
     
     places_json = [place.to_dict() for place in places]
     return jsonify(places_json)
+
