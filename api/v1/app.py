@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """ Starts instance of Flask application for communication with API """
 from flask import Flask, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
+from flasgger import Swagger
 import os
 from models import storage
 from api.v1.views import app_views
@@ -17,6 +18,7 @@ app.register_blueprint(app_views)
 # Testing to see if enabling CORS will
 # correct connection issues.
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
+Swagger(app)
 
 
 # Error Handling for 404 status.
