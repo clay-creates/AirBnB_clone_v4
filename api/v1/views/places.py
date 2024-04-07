@@ -8,6 +8,7 @@ from models import storage
 from models.city import City
 from models.user import User
 from models.place import Place
+from models.amenity import Amenity
 from api.v1.views import app_views
 
 
@@ -89,3 +90,31 @@ def update_place(place_id):
             setattr(place, key, value)
     place.save()
     return jsonify(place.to_dict()), 200
+
+@app_views.route('/places_search', methods=['POST'], strict_slashes=False)
+def places_search():
+    """ Retrieves all Place objects based on JSON in request """
+    if not request.is_json:
+        abort(400, description="Not a JSON request")
+    
+    data = request.get_json()
+    filters = []
+    
+    if 'states' in data and data['states']:
+        city_ids = [city.id for city in storage.all(City).filter(City.state_id.in_(data['states']))]
+        filters.append(Place.city_id.in_(city_ids))
+    
+    if 'cities' in data and data['cities']:
+        filters.append(Place.city_id.in_(data['Cities']))
+    
+    if 'amenities' in data and data['amenities']:
+        filters.append(Place.amenities.any(Amenity.id.in_(data['amenities'])))
+    
+    if not filters:
+        places = storage.all(Place)
+    else:
+        places = storage.all(Place).filter(*filters)
+    
+    places_json = [place.to_dict() for place in places]
+    return jsonify(places_json)
+

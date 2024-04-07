@@ -1,4 +1,4 @@
-$(function () {
+$(document).ready(function () {
   var amenities = {};
   let ameniID = [];
   $('input:checkbox').change(function () {
