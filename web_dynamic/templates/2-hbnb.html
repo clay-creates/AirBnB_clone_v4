@@ -28,7 +28,7 @@
 	  <h4>&nbsp;</h4>
 	  <div class="popover">
 	    <ul>
-			{% for state in states|dictsort %}
+	      {% for state in states %}
 	      <li>
 		<h2>{{ state[0].name }}:</h2>
 		<ul>
@@ -46,7 +46,7 @@
 	  <h4>&nbsp;</h4>
 	  <div class="popover">
 	    <ul>
-		    {% for amenity in amenities|sort(attribute='name') %}
+		    {% for amenity in amens|sort(attribute='name') %}
 			<li>
 		       <input type="checkbox" style="margin-left: 10px;" data-id="{{ amenity.id }}" data-name="{{ amenity.name }}" {{ amenity.name }}>
 		    </li>
