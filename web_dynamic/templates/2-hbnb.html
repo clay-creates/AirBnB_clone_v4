@@ -30,10 +30,10 @@
 	    <ul>
 	      {% for state in states %}
 	      <li>
-		<h2>{{ state[0].name }}:</h2>
+		<h2>{{ state[0] }}:</h2>
 		<ul>
 		  {% for city in state[1] %}
-		  <li>{{ city.name }}</li>
+		  <li>{{ city }}</li>
 		  {% endfor %}
 		</ul>
 	      </li>
