@@ -1,45 +1,51 @@
 #!/usr/bin/python3
 """ Starts instance of Flask application for communication with API """
-from flask import Flask, jsonify
-from flask_cors import CORS, cross_origin
-from flasgger import Swagger
-import os
 from models import storage
 from api.v1.views import app_views
+from os import environ
+from flask import Flask, render_template, make_response, jsonify
+from flask_cors import CORS, cross_origin
+from flasgger import Swagger
+from flasgger.utils import swag_from
 
 
 # Set up instance of Flask
 app = Flask(__name__)
-
-
-# Register app_view blueprint
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.register_blueprint(app_views)
-
-# Testing to see if enabling CORS will
-# correct connection issues.
-CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
-Swagger(app)
+cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
-# Error Handling for 404 status.
-# Using JSON...
-@app.errorhandler(404)
-def not_found(error):
-    """Handler for 404 errors, which returns a JSON
-    formatted response. """
-    return jsonify({"error": "Not found"}), 404
-
-
-# Teardown
 @app.teardown_appcontext
-def teardown_db(exception=None):
+def close_db(error):
+    """ Close Storage """
     storage.close()
 
 
-if __name__ == "__main__":
-    # Get environment variables and set defaults
-    host = os.environ.get('HBNB_API_HOST', '0.0.0.0')
-    port = int(os.environ.get('HBNB_API_PORT', 5000))
+@app.errorhandler(404)
+def not_found(error):
+    """ 404 Error
+    ---
+    responses:
+      404:
+        description: a resource was not found
+    """
+    return make_response(jsonify({'error': "Not found"}), 404)
 
-    # Run Flask app, with debug and threaded options
-    app.run(host=host, port=port, debug=True, threaded=True)
+app.config['SWAGGER'] = {
+    'title': 'AirBnB clone Restful API',
+    'uiversion': 3
+}
+
+Swagger(app)
+
+
+if __name__ == "__main__":
+    """ Main Function """
+    host = environ.get('HBNB_API_HOST')
+    port = environ.get('HBNB_API_PORT')
+    if not host:
+        host = '0.0.0.0'
+    if not port:
+        port = '5000'
+    app.run(host=host, port=port, threaded=True)
