@@ -24,8 +24,9 @@ def close_db(error):
 @app.route('/2-hbnb/', strict_slashes=False)
 def hbnb():
     """ HBNB is alive! """
-    states = storage.all(State).values()
-    states = sorted(states, key=lambda k: k.name)
+    states = storage.all(State)
+    states_dict = {k: v for k, v in states.items()}
+    states = sorted(states_dict.values(), key=lambda k: k.name)
     st_ct = []
 
     for state in states:
