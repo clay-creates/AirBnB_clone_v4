@@ -16,45 +16,48 @@ $(function () {
   });
 });
 
-$(function () {
-  $.get("https://0.0.0.0:5001/api/v1/status/", function (data) {
-    if (data.status === "OK") {
-      $("#api_status").addClass("available");
-    } else {
-      $("#api_status").removeClass("available");
-    }
-  });
+$.get('http://localhost:5001/api/v1/status/', (response) => {
+  if (response.status === "OK") {
+    $('div#api_status').addClass('available');
+  } else {
+    $('div#api_status').removeClass('available');
+  }
 });
 
 $(document).ready(function () {
   $.ajax({
-    url: "https://0.0.0.0:5001/api/v1/places_search/",
-    type: "POST",
-    contentType: "application/json",
+    url: 'http://0.0.0.0:5001/api/v1/places_search',
+    type: 'POST',
     data: JSON.stringify({}),
-    success: function (response) {
-      response.forEach(function (place) {
-        var article = $('<article>').append(
-          $('<div>').addClass('title').append(
-            $('<h2>').text(place.name),
-            $('<div>').addClass('price_by_night').text(place.price_by_night)
-          ),
-          $('<div>').addClass('information').append(
-            $('<div>').addClass('max_guest').append(
-              $('<i>').addClass('fa fa-users fa-3x'),
-              $('<br>'),
-              place.max_guests + "Guests"
-            ),
-            $('<div>').addClass('number_rooms').append(
-              $('<i>').addClass('fa fa-users fa-3x'),
-              $('<br>'),
-              place.number_bathrooms + "Bathroom"
-            )
-          ),
-          $('<div>').addClass('description').text(place.description)
-        );
-        $('.places').append(article);
+    contentType: 'application/json',
+    dataType: 'json',
+    success: function (data) {
+      const placesSection = $('section.places');
+
+      data.forEach(place => {
+        const article = $('<article></article>');
+
+        const titleBox = $('<div class="title_box"></div>').html(`
+          <h2>${place.name}</h2>
+          <div class="price_by_night">$${place.price_by_night}</div>
+        `);
+        article.append(titleBox);
+
+        const information = $('<div class="information"></div>').html(`
+          <div class="max_guest">${place.max_guest} Guest${place.max_guest != 1 ? 's' : ''}</div>
+          <div class="number_rooms">${place.number_rooms} Bedroom${place.number_rooms != 1 ? 's' : ''}</div>
+          <div class="number_bathrooms">${place.number_bathrooms} Bathroom${place.number_bathrooms != 1 ? 's' : ''}</div>
+        `);
+        article.append(information);
+
+        const description = $('<div class="description"></div>').text(place.description);
+        article.append(description);
+
+        placesSection.append(article);
       });
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.error('There was a problem with the AJAX request:', textStatus, errorThrown);
     }
   });
 });
