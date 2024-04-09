@@ -1,10 +1,10 @@
-$(document).ready(function () {
-  var amenities = {};
-  let ameniID = [];
+$(function () {
+  const amenities = {};
+  const ameniID = [];
   $('input:checkbox').change(function () {
-    let ameniName = [];
+    const ameniName = [];
     $(':checkbox').each(function () {
-      if ($(this).is(":checked")) {
+      if ($(this).is(':checked')) {
         ameniID.push($(this).data('id'));
         ameniName.push($(this).data('name'));
       } else {

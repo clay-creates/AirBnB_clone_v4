@@ -41,18 +41,17 @@
 	  </div>
 	</div>
 	<div class="amenities">
-	  <h3>Amenities</h3>
-	  <h4>&nbsp;</h4>
-	  <div class="popover">
-	    <ul>
-		    {% for amenity in amens|sort(attribute='name') %}
-			<li>
-		       <input type="checkbox" style="margin-left: 10px;" data-id="{{ amenity.id }}" data-name="{{ amenity.name }}" {{ amenity.name }}>
-		    </li>
+	    <h3>Amenities</h3>
+	    <h4>&nbsp;</h4>
+	    <ul class="popover">
+	      {% for amenity in amens|sort(attribute='name') %}
+	      <LI>
+            <input type="checkbox" style="margin-left: 10px;" data-id="{{ amenity.id }}" data-name="{{ amenity.name }}">
+            {{ amenity.name }}
+          </LI>
 	      {% endfor %}
 	    </ul>
 	  </div>
-	</div>
 	<button type="button">Search</button>
       </section>
       <div class="placesh1"><h1>Places</h1></div>
