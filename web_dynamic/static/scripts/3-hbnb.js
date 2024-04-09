@@ -14,17 +14,15 @@ $(function () {
     $('div.amenities h4').text(ameniName.join(', '));
     console.log(ameniID);
   });
-});
 
-$.get('http://localhost:5001/api/v1/status/', (response) => {
-  if (response.status === "OK") {
-    $('div#api_status').addClass('available');
-  } else {
-    $('div#api_status').removeClass('available');
-  }
-});
+  $.get('http://localhost:5001/api/v1/status/', (response) => {
+    if (response.status === "OK") {
+      $('div#api_status').addClass('available');
+    } else {
+      $('div#api_status').removeClass('available');
+    }
+  });
 
-$(document).ready(function () {
   $.ajax({
     url: 'http://0.0.0.0:5001/api/v1/places_search',
     type: 'POST',
@@ -32,7 +30,6 @@ $(document).ready(function () {
     contentType: 'application/json',
     dataType: 'json',
     success: function (data) {
-      const placesSection = $('section.places');
 
       data.forEach(place => {
         const article = $('<article></article>');
@@ -53,7 +50,7 @@ $(document).ready(function () {
         const description = $('<div class="description"></div>').text(place.description);
         article.append(description);
 
-        placesSection.append(article);
+        $('section.places').append(article);
       });
     },
     error: function (jqXHR, textStatus, errorThrown) {
